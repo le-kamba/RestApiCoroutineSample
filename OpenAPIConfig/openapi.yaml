@@ -1,0 +1,170 @@
+openapi: 3.0.3
+
+info:
+  version: 0.0.1
+  title: My SampleData Api
+  license:
+    name: MIT
+servers:
+  - url: http://my.data.example.com/v1
+paths:
+  /logs:
+    get:
+      summary: List all logs
+      operationId: listLogs
+      tags:
+        - logs
+      responses:
+        '200':
+          description: Array of logs
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Logs"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      summary: Create/Update a log
+      operationId: createLog
+      tags:
+        - logs
+      requestBody:
+        description: log to create
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Log"
+      responses:
+        '201':
+          description: Null response
+          headers:
+            location:
+              description: A link to the new log
+              schema:
+                type: string
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    put:
+      summary: Create/Update a log
+      operationId: putLog
+      tags:
+        - logs
+      requestBody:
+        description: log to update
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Log"
+      responses:
+        '200':
+          description: Update results
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Log"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /logs/{date}:
+    get:
+      summary: Log for a specific date
+      operationId: showLogByDate
+      tags:
+        - logs
+      parameters:
+        - name: date
+          in: path
+          required: true
+          description: The date string formatted yyyy/MM/dd
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Log"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      summary: Delete log by date key
+      operationId: deleteLogByDate
+      tags:
+        - logs
+      parameters:
+        - name: date
+          in: path
+          required: true
+          description: The date string formatted yyyy/MM/dd
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Expected response to a valid request
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+components:
+  schemas: 
+    Log:
+      type: object
+      required:
+        - date
+        - foo
+        - hoge
+      properties:
+        date:
+          type: string
+        foo:
+          type: integer
+          format: int32
+        bar:
+          type: boolean
+      example: 
+        date: "2020/02/22"
+        foo: 11
+        bar: true
+    Logs:
+      type: array
+      items:
+        $ref: "#/components/schemas/Log"
+      example: 
+        - date: "2020/02/22"
+          foo: 11
+          bar: true
+        - date: "2020/08/23"
+          foo: 13
+          bar: false
+    Error:
+      type: object
+      required:
+        - status
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+      example: 
+        status: 100
+        message: "サーバーエラー"
