@@ -13,8 +13,9 @@ import les.kasa.android.restclientsample.repository.LogRepository
 /**
  * MainActivity用のViewModelクラス
  */
-class MainViewModel(private val _repository: LogRepository, app: Application) :
+class MainViewModel(app: Application) :
     AndroidViewModel(app) {
+    private val _repository = LogRepository()
     private var _restResultText = MutableLiveData<String>()
 
     val restResultText: LiveData<String> = _restResultText
