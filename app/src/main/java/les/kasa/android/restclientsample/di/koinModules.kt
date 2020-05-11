@@ -3,6 +3,7 @@ package les.kasa.android.restclientsample.di
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import les.kasa.android.restclientsample.BuildConfig
 import les.kasa.android.restclientsample.MainViewModel
 import les.kasa.android.restclientsample.repository.LogRepository
 import les.kasa.android.restclientsample.service.LogApiService
@@ -15,7 +16,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 
-const val API_URL = "http://10.0.2.2:8000/"
+const val API_URL = BuildConfig.API_BASE_URL
 
 // ViewModel
 val viewModelModule = module {

@@ -11,7 +11,7 @@ interface LogApiService {
     @GET("/logs")
     fun getAll(): Call<ResponseBody>
 
-    @Headers("Content-Type: application/json")
+    @Headers("Accept:application/json, Content-Type: application/json")
     @GET("/logs/{date}")
     fun get(@Path("date") date: String): Call<ResponseBody>
 
